@@ -50,9 +50,30 @@ The separate date benchmark asks Jev to choose a **coarse** label (Q1–Q4, unsp
 ```sh
 uv run jev-semantic-date-benchmark --batch-size 25
 uv run jev-semantic-repeatability --runs 10 --mode individual
+uv run jev-semantic-repeatability --runs 10 --mode batch
 ```
 
-Both commands use the same 100-question dataset. The repeatability command selects ten fixed questions, one per metric, and compares repeated choices and exact confidence values. This authored dataset tests known catalog names and wording patterns; it does not estimate accuracy on arbitrary production questions.
+The date and repeatability commands use the same 100-question dataset. The repeatability command selects ten fixed questions, one per metric, and compares repeated choices and exact confidence values. This authored dataset tests known catalog names and wording patterns; it does not estimate accuracy on arbitrary production questions.
+
+### Recorded evaluation (2026-09-18)
+
+The results below used Jev `jev-1.13.0` and the 100-question dataset at SHA-256 `bab581f2a46233ad496d2338a283bee5ea89f3780e82955ccb457a10042b36a6`.
+
+| Evaluation | Exact complete answers | API-call time | Total in-process time |
+| --- | ---: | ---: | ---: |
+| Main semantic-layer pipeline, 4 batches of 25 | 100/100 | 1,456.2 ms across 4 calls | 1,506.1 ms |
+| Separate coarse Jev date experiment, 4 batches of 25 | 100/100 | 1,386.9 ms across 4 calls | 1,432.0 ms |
+
+In the main pipeline, the entity set, target, metric, and **rule-parsed detailed period** each matched 100/100. It sent 120 Jev decision questions: 100 metric choices and 20 target-entity choices. In the separate date experiment, Jev's **coarse date label** matched 100/100; that label is not used by the main CLI. API-call time includes the client request, network, and service response, not just model compute. The main pipeline's 1,506.1 ms is for all 100 questions together; dividing by 100 gives throughput per question, **not** single-question latency.
+
+For repeatability, ten fixed questions were each evaluated ten times:
+
+| Request shape | Stable discrete choices | Exact numeric API answers | Execution time |
+| --- | ---: | --- | ---: |
+| Individual: 100 separate API calls | 10/10 questions unchanged across all 10 runs | 9 distinct full answer sets across 10 runs; confidence/probabilities varied on 4 questions | 21,944.2 ms API time total; 219.4 ms mean per call |
+| Batch: 10 API calls, each with 10 questions | 10/10 questions unchanged across all 10 runs | 5 distinct full answer sets across 10 runs; confidence/probabilities varied on 2 questions | 4,356.0 ms API time total; 435.6 ms mean per 10-question batch |
+
+Every sampled question was completely correct in all ten runs in both request shapes. This is **100% choice consistency on a 10-question sample**, not proof of deterministic numeric output or 100% accuracy on unseen questions. The 100-question set was authored around the known catalog and metrics, and there is no independent holdout in this simplified repository.
 
 ## Layout
 

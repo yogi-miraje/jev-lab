@@ -55,25 +55,26 @@ uv run jev-semantic-repeatability --runs 10 --mode batch
 
 The date and repeatability commands use the same 100-question dataset. The repeatability command selects ten fixed questions, one per metric, and compares repeated choices and exact confidence values. This authored dataset tests known catalog names and wording patterns; it does not estimate accuracy on arbitrary production questions.
 
-### Recorded evaluation (2026-09-18)
+### Results at a glance (2026-09-18)
 
-The results below used Jev `jev-1.13.0` and the 100-question dataset at SHA-256 `bab581f2a46233ad496d2338a283bee5ea89f3780e82955ccb457a10042b36a6`.
+```text
+The same 100 hand-written finance questions
+├── Main app                 100/100 complete answers  ·  1.51 s total
+└── Separate Jev date test   100/100 coarse labels     ·  1.43 s total
 
-| Evaluation | Exact complete answers | API-call time | Total in-process time |
-| --- | ---: | ---: | ---: |
-| Main semantic-layer pipeline, 4 batches of 25 | 100/100 | 1,456.2 ms across 4 calls | 1,506.1 ms |
-| Separate coarse Jev date experiment, 4 batches of 25 | 100/100 | 1,386.9 ms across 4 calls | 1,432.0 ms |
+10 of those questions, repeated 10 times each
+└── Answer choices stayed the same; numeric scores sometimes changed
+```
 
-In the main pipeline, the entity set, target, metric, and **rule-parsed detailed period** each matched 100/100. It sent 120 Jev decision questions: 100 metric choices and 20 target-entity choices. In the separate date experiment, Jev's **coarse date label** matched 100/100; that label is not used by the main CLI. API-call time includes the client request, network, and service response, not just model compute. The main pipeline's 1,506.1 ms is for all 100 questions together; dividing by 100 gives throughput per question, **not** single-question latency.
+“Complete answer” means the entities mentioned, the target entity, the metric, **and** the detailed period all matched. Jev chose the metric and sometimes the target; Python parsed the detailed period. The separate Jev date test chose only broad labels such as Q2 or “year.” Its predictions are **not** used by the main app.
 
-For repeatability, ten fixed questions were each evaluated ten times:
+**Timing:** Each 100-question run used four API calls of 25 questions. The 1.51 s and 1.43 s figures are totals for all 100—not time per question. In the one-at-a-time repeat test, an API call averaged **219 ms**. A ten-question batch averaged **436 ms**. These API timings include network and service time, not just model computation.
 
-| Request shape | Stable discrete choices | Exact numeric API answers | Execution time |
-| --- | ---: | --- | ---: |
-| Individual: 100 separate API calls | 10/10 questions unchanged across all 10 runs | 9 distinct full answer sets across 10 runs; confidence/probabilities varied on 4 questions | 21,944.2 ms API time total; 219.4 ms mean per call |
-| Batch: 10 API calls, each with 10 questions | 10/10 questions unchanged across all 10 runs | 5 distinct full answer sets across 10 runs; confidence/probabilities varied on 2 questions | 4,356.0 ms API time total; 435.6 ms mean per 10-question batch |
+**Consistency:** All ten sampled questions kept the same choices across ten runs, both individually and in batches. Their confidence/probability numbers varied for four questions individually and two in batches. This is a result for a **ten-question sample**, not all 100 repeated questions.
 
-Every sampled question was completely correct in all ten runs in both request shapes. This is **100% choice consistency on a 10-question sample**, not proof of deterministic numeric output or 100% accuracy on unseen questions. The 100-question set was authored around the known catalog and metrics, and there is no independent holdout in this simplified repository.
+**Limit:** The questions were written around the known entity catalog and ten metrics. With no independent holdout, 100/100 on this set does **not** tell us the accuracy on questions from the wild.
+
+Run details: Jev `jev-1.13.0`; dataset SHA-256 `bab581f2a46233ad496d2338a283bee5ea89f3780e82955ccb457a10042b36a6`.
 
 ## Layout
 

@@ -1,0 +1,111 @@
+{
+  "graph_id": "financial-fundamentals-v1",
+  "description": "A compact semantic layer for issuer-level financial fundamentals. Metric IDs are stable machine-facing identifiers; labels and aliases are human-facing metadata.",
+  "root": "financial_fundamentals",
+  "nodes": [
+    {
+      "id": "income_statement",
+      "kind": "metric_group",
+      "label": "Income statement"
+    },
+    {
+      "id": "cash_flow_statement",
+      "kind": "metric_group",
+      "label": "Cash flow statement"
+    },
+    {
+      "id": "fundamental.revenue",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Revenue",
+      "definition": "Total sales or revenue recognized by the company before expenses.",
+      "aliases": ["sales", "top line", "turnover", "total revenue"]
+    },
+    {
+      "id": "fundamental.revenue_growth_yoy",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Revenue growth (YoY)",
+      "definition": "Year-over-year percentage change in revenue.",
+      "aliases": ["sales growth", "top-line growth", "revenue growth"]
+    },
+    {
+      "id": "fundamental.gross_profit",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Gross profit",
+      "definition": "Revenue minus cost of revenue or cost of goods sold, expressed as a currency amount.",
+      "aliases": ["gross earnings", "gross income"]
+    },
+    {
+      "id": "fundamental.gross_margin_pct",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Gross margin (%)",
+      "definition": "Gross profit divided by revenue, expressed as a percentage.",
+      "aliases": ["gross margin", "gross profit margin"]
+    },
+    {
+      "id": "fundamental.operating_income",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Operating income",
+      "definition": "Profit from core operations before interest and taxes; often called operating profit or EBIT.",
+      "aliases": ["operating profit", "EBIT", "income from operations"]
+    },
+    {
+      "id": "fundamental.net_income",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Net income",
+      "definition": "Profit after all expenses, interest, taxes, and non-operating items.",
+      "aliases": ["net profit", "bottom line", "earnings"]
+    },
+    {
+      "id": "fundamental.diluted_eps",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Diluted earnings per share",
+      "definition": "Net income available to common shareholders divided by diluted weighted-average shares outstanding.",
+      "aliases": ["diluted EPS", "earnings per share", "EPS"]
+    },
+    {
+      "id": "fundamental.research_and_development_expense",
+      "kind": "metric",
+      "parent_id": "income_statement",
+      "label": "Research and development expense",
+      "definition": "Expense recognized for research and development activities during the period.",
+      "aliases": ["R&D", "R and D", "research spend", "development expense"]
+    },
+    {
+      "id": "fundamental.free_cash_flow",
+      "kind": "metric",
+      "parent_id": "cash_flow_statement",
+      "label": "Free cash flow",
+      "definition": "Cash generated after operating cash flow and capital expenditures; the exact calculation must be documented by the data provider.",
+      "aliases": ["FCF", "free cash"]
+    },
+    {
+      "id": "fundamental.capital_expenditures",
+      "kind": "metric",
+      "parent_id": "cash_flow_statement",
+      "label": "Capital expenditures",
+      "definition": "Cash spent to acquire or improve long-lived property, plant, equipment, or other productive assets.",
+      "aliases": ["capex", "capital spending", "investment in property and equipment"]
+    }
+  ],
+  "edges": [
+    {"from": "financial_fundamentals", "to": "income_statement", "relation": "contains"},
+    {"from": "financial_fundamentals", "to": "cash_flow_statement", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.revenue", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.revenue_growth_yoy", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.gross_profit", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.gross_margin_pct", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.operating_income", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.net_income", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.diluted_eps", "relation": "contains"},
+    {"from": "income_statement", "to": "fundamental.research_and_development_expense", "relation": "contains"},
+    {"from": "cash_flow_statement", "to": "fundamental.free_cash_flow", "relation": "contains"},
+    {"from": "cash_flow_statement", "to": "fundamental.capital_expenditures", "relation": "contains"}
+  ]
+}

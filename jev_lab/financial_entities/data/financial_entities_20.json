@@ -1,0 +1,52 @@
+[
+  {"entity": "Apple", "expected_category": "company"},
+  {"entity": "Microsoft", "expected_category": "company"},
+  {"entity": "NVIDIA", "expected_category": "company"},
+  {"entity": "Toyota Motor Corporation", "expected_category": "company"},
+  {"entity": "JPMorgan Chase", "expected_category": "company"},
+  {"entity": "Amazon", "expected_category": "company"},
+  {"entity": "Alphabet", "expected_category": "company"},
+  {"entity": "Meta Platforms", "expected_category": "company"},
+  {"entity": "Tesla", "expected_category": "company"},
+  {"entity": "Berkshire Hathaway", "expected_category": "company"},
+  {"entity": "Samsung Electronics", "expected_category": "company"},
+  {"entity": "Taiwan Semiconductor Manufacturing Company", "expected_category": "company"},
+  {"entity": "Novo Nordisk", "expected_category": "company"},
+  {"entity": "Vanguard Total Stock Market ETF", "expected_category": "fund_or_etf"},
+  {"entity": "SPDR S&P 500 ETF Trust", "expected_category": "fund_or_etf"},
+  {"entity": "iShares Core U.S. Aggregate Bond ETF", "expected_category": "fund_or_etf"},
+  {"entity": "Vanguard 500 Index Fund", "expected_category": "fund_or_etf"},
+  {"entity": "Fidelity Contrafund", "expected_category": "fund_or_etf"},
+  {"entity": "Invesco QQQ Trust", "expected_category": "fund_or_etf"},
+  {"entity": "iShares MSCI EAFE ETF", "expected_category": "fund_or_etf"},
+  {"entity": "Vanguard Total Bond Market ETF", "expected_category": "fund_or_etf"},
+  {"entity": "Fidelity 500 Index Fund", "expected_category": "fund_or_etf"},
+  {"entity": "T. Rowe Price Blue Chip Growth Fund", "expected_category": "fund_or_etf"},
+  {"entity": "ARK Innovation ETF", "expected_category": "fund_or_etf"},
+  {"entity": "Schwab U.S. Dividend Equity ETF", "expected_category": "fund_or_etf"},
+  {"entity": "iShares Russell 2000 ETF", "expected_category": "fund_or_etf"},
+  {"entity": "S&P 500", "expected_category": "index"},
+  {"entity": "Nasdaq Composite", "expected_category": "index"},
+  {"entity": "Dow Jones Industrial Average", "expected_category": "index"},
+  {"entity": "Russell 2000", "expected_category": "index"},
+  {"entity": "MSCI World Index", "expected_category": "index"},
+  {"entity": "FTSE 100", "expected_category": "index"},
+  {"entity": "Nikkei 225", "expected_category": "index"},
+  {"entity": "DAX", "expected_category": "index"},
+  {"entity": "CAC 40", "expected_category": "index"},
+  {"entity": "Hang Seng Index", "expected_category": "index"},
+  {"entity": "Bloomberg U.S. Aggregate Bond Index", "expected_category": "index"},
+  {"entity": "CBOE Volatility Index", "expected_category": "index"},
+  {"entity": "gold", "expected_category": "commodity"},
+  {"entity": "West Texas Intermediate crude oil", "expected_category": "commodity"},
+  {"entity": "copper", "expected_category": "commodity"},
+  {"entity": "natural gas", "expected_category": "commodity"},
+  {"entity": "wheat", "expected_category": "commodity"}
+  ,{"entity": "silver", "expected_category": "commodity"}
+  ,{"entity": "Brent crude oil", "expected_category": "commodity"}
+  ,{"entity": "platinum", "expected_category": "commodity"}
+  ,{"entity": "palladium", "expected_category": "commodity"}
+  ,{"entity": "corn", "expected_category": "commodity"}
+  ,{"entity": "soybeans", "expected_category": "commodity"}
+  ,{"entity": "coffee", "expected_category": "commodity"}
+]

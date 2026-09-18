@@ -1,0 +1,14 @@
+[
+  {"task": "Classify 200,000 support tickets into eight predefined intent labels. Output strict JSON and minimize cost.", "provider": "openai", "expected_model": "luna"},
+  {"task": "Extract invoice number, vendor, date, and total from 50,000 already-OCRed invoices. The output schema is fixed and errors are sampled by a human.", "provider": "openai", "expected_model": "luna"},
+  {"task": "Fix a clearly reproduced date-formatting bug in a Python app, add a regression test, and keep the patch small.", "provider": "openai", "expected_model": "terra"},
+  {"task": "Read a six-page project brief and produce a practical, prioritized implementation plan for a normal web feature.", "provider": "openai", "expected_model": "terra"},
+  {"task": "Diagnose a race condition spanning a queue consumer, retry logic, and database transaction boundaries; implement and test the safest fix.", "provider": "openai", "expected_model": "sol"},
+  {"task": "Refactor authentication used across 18 files while retaining backwards compatibility for an existing API client.", "provider": "openai", "expected_model": "sol"},
+  {"task": "For every incoming chat message, return one of five known routing labels in under a second.", "provider": "anthropic", "expected_model": "haiku"},
+  {"task": "Extract product name, quantity, and delivery date from a large stream of short, standardized customer emails.", "provider": "anthropic", "expected_model": "haiku"},
+  {"task": "Implement a well-specified dashboard filter feature across frontend, API, and tests in an existing app.", "provider": "anthropic", "expected_model": "sonnet"},
+  {"task": "Compare ten research notes, identify contradictions, and write a concise recommendation with cited evidence.", "provider": "anthropic", "expected_model": "sonnet"},
+  {"task": "Review three competing database migration plans for a revenue-critical system, identify failure modes, and recommend the safest path.", "provider": "anthropic", "expected_model": "opus"},
+  {"task": "Investigate an intermittent production incident using logs, code, deployment history, and monitoring screenshots; propose a carefully verified remediation plan.", "provider": "anthropic", "expected_model": "opus"}
+]

@@ -1,0 +1,50 @@
+{
+  "snapshot_date": "2026-09-18",
+  "source": "Artificial Analysis Intelligence Index and provider model pages; values vary by reasoning effort and provider.",
+  "source_urls": [
+    "https://artificialanalysis.ai/providers/openai/",
+    "https://artificialanalysis.ai/providers/anthropic/",
+    "https://artificialanalysis.ai/models/releases/gpt-5-6-terra",
+    "https://artificialanalysis.ai/models/releases/claude-sonnet-5",
+    "https://artificialanalysis.ai/models/releases/claude-opus-5",
+    "https://artificialanalysis.ai/models/claude-4-5-haiku-reasoning"
+  ],
+  "models": {
+    "luna": {
+      "provider": "openai",
+      "aa_snapshot": "GPT-5.6 Luna (max): Intelligence Index 38; $0.18 per Index task; 115 output tokens/s.",
+      "route_when": "The task is high-volume, bounded, and has a clear output schema; minimizing cost matters more than deepest reasoning.",
+      "avoid_when": "The task needs difficult multi-file planning, nuanced trade-offs, or expensive-to-retry judgment."
+    },
+    "terra": {
+      "provider": "openai",
+      "aa_snapshot": "GPT-5.6 Terra (max): Intelligence Index 42; $1.40 per Index task; 85 output tokens/s.",
+      "route_when": "The task is a normal, well-scoped daily coding, writing, or analysis job needing a balance of quality and cost.",
+      "avoid_when": "A cheaper bounded model is sufficient, or the work is an unusually complex professional decision."
+    },
+    "sol": {
+      "provider": "openai",
+      "aa_snapshot": "GPT-5.6 Sol (xhigh): Intelligence Index 44; $1.18 per Index task; 67 output tokens/s.",
+      "route_when": "The task requires strong professional reasoning: tricky debugging, multi-file refactoring, or difficult technical trade-offs.",
+      "avoid_when": "The task is routine or high-volume enough that a lower-cost tier will meet the acceptance criteria."
+    },
+    "haiku": {
+      "provider": "anthropic",
+      "aa_snapshot": "Claude 4.5 Haiku (reasoning): Intelligence Index 18; $0.21 per Index task; 89 output tokens/s.",
+      "route_when": "The task is a fast, bounded Anthropic-compatible extraction, classification, or concise transformation at scale.",
+      "avoid_when": "The task has complicated planning, deep repository context, or high consequence from a wrong answer."
+    },
+    "sonnet": {
+      "provider": "anthropic",
+      "aa_snapshot": "Claude Sonnet 5 (max): Intelligence Index 38; up to $5.09 per Index task; 75 output tokens/s.",
+      "route_when": "The task is a well-scoped default implementation, research, writing, or agent task where consistent general capability matters.",
+      "avoid_when": "A simple scale task fits Haiku/Luna, or a difficult professional decision justifies Opus or Sol."
+    },
+    "opus": {
+      "provider": "anthropic",
+      "aa_snapshot": "Claude Opus 5 (max): Intelligence Index 51; up to $5.86 per Index task; 51 output tokens/s.",
+      "route_when": "The task is a difficult but bounded professional judgment, high-stakes review, or multi-system diagnosis where retries are costly.",
+      "avoid_when": "The task is routine, easily verified, or high-volume."
+    }
+  }
+}

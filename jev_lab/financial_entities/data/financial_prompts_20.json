@@ -1,0 +1,22 @@
+[
+  {"prompt": "How did Apple perform relative to the S&P 500 this quarter?", "entities": [{"entity": "Apple", "category": "company"}, {"entity": "S&P 500", "category": "index"}]},
+  {"prompt": "Compare Vanguard Total Stock Market ETF with Microsoft for a long-term investor.", "entities": [{"entity": "Vanguard Total Stock Market ETF", "category": "fund_or_etf"}, {"entity": "Microsoft", "category": "company"}]},
+  {"prompt": "What could push gold higher over the next six months?", "entities": [{"entity": "gold", "category": "commodity"}]},
+  {"prompt": "Is Tesla more sensitive to a Nasdaq Composite selloff than its peers?", "entities": [{"entity": "Tesla", "category": "company"}, {"entity": "Nasdaq Composite", "category": "index"}]},
+  {"prompt": "What is the current investment thesis for Fidelity Contrafund?", "entities": [{"entity": "Fidelity Contrafund", "category": "fund_or_etf"}]},
+  {"prompt": "How would a global manufacturing slowdown affect copper demand?", "entities": [{"entity": "copper", "category": "commodity"}]},
+  {"prompt": "Compare SPDR S&P 500 ETF Trust, the S&P 500, and gold as defensive holdings.", "entities": [{"entity": "SPDR S&P 500 ETF Trust", "category": "fund_or_etf"}, {"entity": "S&P 500", "category": "index"}, {"entity": "gold", "category": "commodity"}]},
+  {"prompt": "How does Toyota Motor Corporation's valuation compare with the Nikkei 225?", "entities": [{"entity": "Toyota Motor Corporation", "category": "company"}, {"entity": "Nikkei 225", "category": "index"}]},
+  {"prompt": "What duration risk does iShares Core U.S. Aggregate Bond ETF carry?", "entities": [{"entity": "iShares Core U.S. Aggregate Bond ETF", "category": "fund_or_etf"}]},
+  {"prompt": "Contrast West Texas Intermediate crude oil with Brent crude oil after an OPEC supply cut.", "entities": [{"entity": "West Texas Intermediate crude oil", "category": "commodity"}, {"entity": "Brent crude oil", "category": "commodity"}]},
+  {"prompt": "Should NVIDIA investors compare growth expectations with MSCI World Index exposure and Vanguard 500 Index Fund?", "entities": [{"entity": "NVIDIA", "category": "company"}, {"entity": "MSCI World Index", "category": "index"}, {"entity": "Vanguard 500 Index Fund", "category": "fund_or_etf"}]},
+  {"prompt": "How much of Amazon's retail margin is exposed to higher silver prices?", "entities": [{"entity": "Amazon", "category": "company"}, {"entity": "silver", "category": "commodity"}]},
+  {"prompt": "Does iShares Russell 2000 ETF provide the same small-cap exposure as the Russell 2000?", "entities": [{"entity": "iShares Russell 2000 ETF", "category": "fund_or_etf"}, {"entity": "Russell 2000", "category": "index"}]},
+  {"prompt": "How could changing weather patterns affect wheat and coffee prices?", "entities": [{"entity": "wheat", "category": "commodity"}, {"entity": "coffee", "category": "commodity"}]},
+  {"prompt": "Compare Meta Platforms, the DAX, and ARK Innovation ETF after a shift in AI spending.", "entities": [{"entity": "Meta Platforms", "category": "company"}, {"entity": "DAX", "category": "index"}, {"entity": "ARK Innovation ETF", "category": "fund_or_etf"}]},
+  {"prompt": "How does Vanguard Total Bond Market ETF fit into a conservative allocation?", "entities": [{"entity": "Vanguard Total Bond Market ETF", "category": "fund_or_etf"}]},
+  {"prompt": "Assess JPMorgan Chase against the Dow Jones Industrial Average when gold prices are rising.", "entities": [{"entity": "JPMorgan Chase", "category": "company"}, {"entity": "Dow Jones Industrial Average", "category": "index"}, {"entity": "gold", "category": "commodity"}]},
+  {"prompt": "Could Samsung Electronics benefit if the Hang Seng Index rebounds?", "entities": [{"entity": "Samsung Electronics", "category": "company"}, {"entity": "Hang Seng Index", "category": "index"}]},
+  {"prompt": "Compare Fidelity 500 Index Fund, the S&P 500, and natural gas price risk in a mixed portfolio.", "entities": [{"entity": "Fidelity 500 Index Fund", "category": "fund_or_etf"}, {"entity": "S&P 500", "category": "index"}, {"entity": "natural gas", "category": "commodity"}]},
+  {"prompt": "How does Novo Nordisk compare with iShares MSCI EAFE ETF for international diversification?", "entities": [{"entity": "Novo Nordisk", "category": "company"}, {"entity": "iShares MSCI EAFE ETF", "category": "fund_or_etf"}]}
+]

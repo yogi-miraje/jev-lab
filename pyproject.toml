@@ -1,0 +1,30 @@
+[project]
+name = "jev-lab"
+version = "0.2.0"
+description = "Small Python experiment for TypeSafe Jev"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "python-dotenv>=1.0.1",
+  "typesafe-sdk>=0.1.0",
+]
+
+[project.scripts]
+jev-lab = "jev_lab.support_tickets.cli:main"
+jev-entities = "jev_lab.financial_entities.cli:main"
+jev-entities-benchmark = "jev_lab.financial_entities.benchmark:main"
+jev-route = "jev_lab.model_router.cli:main"
+jev-route-benchmark = "jev_lab.model_router.benchmark:main"
+jev-semantic-metric = "jev_lab.semantic_metrics.cli:main"
+jev-semantic-metric-benchmark = "jev_lab.semantic_metrics.benchmark:main"
+jev-semantic-layer = "jev_lab.semantic_metrics.layer_cli:main"
+jev-semantic-layer-benchmark = "jev_lab.semantic_metrics.layer_benchmark:main"
+jev-semantic-date-benchmark = "jev_lab.semantic_metrics.date_benchmark:main"
+jev-semantic-repeatability = "jev_lab.semantic_metrics.repeatability_benchmark:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"

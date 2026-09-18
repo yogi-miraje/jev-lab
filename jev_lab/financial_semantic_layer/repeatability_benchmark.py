@@ -13,30 +13,19 @@ from typing import Any
 from dotenv import load_dotenv
 
 from ..shared.provider import JevProvider
-from .date_benchmark import SOURCES, score
+from .date_benchmark import score
 from .date_classification import date_question, expected_date_label
 from .layer import load_semantic_layer, prepare_question, resolve_answers
-from .layer_benchmark import load_dataset
+from .layer_benchmark import DATASET_PATH, load_dataset
 
 # One question per metric, fixed before the repeatability run. Indices are 1-based.
-SAMPLE_REFERENCES = (
-    ("newer_50", 4),
-    ("newer_50", 10),
-    ("fresh_50", 13),
-    ("fresh_50", 20),
-    ("newer_50", 23),
-    ("original_100", 30),
-    ("fresh_50", 32),
-    ("newer_50", 40),
-    ("fresh_50", 41),
-    ("newer_50", 46),
-)
+SAMPLE_INDICES = (1, 10, 13, 20, 23, 30, 35, 38, 45, 50)
 
 
-def sample_rows() -> list[tuple[str, dict[str, Any]]]:
-    by_source = {name: load_dataset(path) for name, path in SOURCES}
-    rows = [(source, by_source[source][number - 1]) for source, number in SAMPLE_REFERENCES]
-    if len(rows) != 10 or len({row["metric"] for _, row in rows}) != 10:
+def sample_rows() -> list[dict[str, Any]]:
+    dataset = load_dataset(DATASET_PATH)
+    rows = [dataset[number - 1] for number in SAMPLE_INDICES]
+    if len(rows) != 10 or len({row["metric"] for row in rows}) != 10:
         raise ValueError("Repeatability sample must cover ten different metrics")
     return rows
 
@@ -77,13 +66,13 @@ def main() -> None:
     rows = sample_rows()
     prepared = []
     questions: dict[str, object] = {}
-    for index, (_, row) in enumerate(rows, start=1):
+    for index, row in enumerate(rows, start=1):
         mentions, rule_period, local_questions = prepare_question(row["question"], graph, catalog)
         prepared.append((mentions, rule_period))
         for name, question in local_questions.items():
             questions[f"q{index}_{name}"] = question
         questions[f"q{index}_date"] = date_question(row["question"])
-    batch_state = {"semantic_layer": layer, "questions": [row["question"] for _, row in rows]}
+    batch_state = {"semantic_layer": layer, "questions": [row["question"] for row in rows]}
 
     choices_by_question = [[] for _ in rows]
     exact_by_question = [[] for _ in rows]
@@ -105,7 +94,7 @@ def main() -> None:
             model_names.append(response.model)
         else:
             api_answers = {}
-            for index, (_, row) in enumerate(rows, start=1):
+            for index, row in enumerate(rows, start=1):
                 local_questions = {
                     name: question for name, question in questions.items()
                     if name.startswith(f"q{index}_")
@@ -122,7 +111,7 @@ def main() -> None:
         }))
         full_outputs = []
         correct_count = 0
-        for index, ((_, row), (mentions, rule_period)) in enumerate(zip(rows, prepared), start=1):
+        for index, (row, (mentions, rule_period)) in enumerate(zip(rows, prepared), start=1):
             metric_answer = api_answers[f"q{index}_metric"]
             date_answer = api_answers[f"q{index}_date"]
             answers = {"metric": metric_answer}
@@ -154,14 +143,13 @@ def main() -> None:
         per_run_correct.append(correct_count)
 
     question_results = []
-    for index, ((source, row), choices, exact, correct, confidences) in enumerate(
+    for index, (row, choices, exact, correct, confidences) in enumerate(
         zip(rows, choices_by_question, exact_by_question, correct_by_question, confidence_by_question),
         start=1,
     ):
         modal_count = max(Counter(choices).values())
         question_results.append({
             "number": index,
-            "source": source,
             "question": row["question"],
             "expected": {
                 "entities": row["entities"],

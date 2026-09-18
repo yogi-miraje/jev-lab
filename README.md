@@ -37,20 +37,12 @@ The pipeline first matches names and aliases against the 50-entry `entity_catalo
 
 ### Evaluation data
 
-All financial data lives in `jev_lab/financial_semantic_layer/data/`:
+The only bundled question dataset is `jev_lab/financial_semantic_layer/data/semantic_layer_questions_100.jsonl`: 100 labeled questions, ten per metric. Each row has the question and its expected entity set, target entity, metric ID, and period. The other two files in `data/` are application metadata: `entity_catalog.json` and `financial_semantic_graph.json`.
 
-| File | Purpose |
-| --- | --- |
-| `semantic_layer_questions_100.jsonl` | Original 100 labeled entity–metric–period questions |
-| `semantic_layer_holdout_50.jsonl` | Separately written 50-question holdout |
-| `semantic_layer_holdout_additional_50.jsonl` | Additional 50 questions |
-| `semantic_layer_date_200.json` | Manifest combining those three sets for a 200-question coarse-date experiment |
-| `semantic_layer_date_150.json` | Earlier manifest retained for reproducibility |
-
-The main benchmark awards one point only when the complete entity set, target entity, metric ID, and detailed period all match the expected answer. It reports component accuracy, whole-answer accuracy, API time per batch, and total in-process time. To test another set:
+The main benchmark awards one point only when the complete entity set, target entity, metric ID, and detailed period all match the expected answer. It reports component accuracy, whole-answer accuracy, API time per batch, and total in-process time:
 
 ```sh
-uv run jev-semantic-layer-benchmark --dataset jev_lab/financial_semantic_layer/data/semantic_layer_holdout_50.jsonl --batch-size 25
+uv run jev-semantic-layer-benchmark --batch-size 25
 ```
 
 The separate date benchmark asks Jev to choose a **coarse** label (Q1–Q4, unspecified quarter, year, trailing 12 months, year-to-date, or no date). It ignores absolute years and fiscal/calendar basis, and does **not** change the app's rule-based detailed period output:
@@ -60,7 +52,7 @@ uv run jev-semantic-date-benchmark --batch-size 25
 uv run jev-semantic-repeatability --runs 10 --mode individual
 ```
 
-The repeatability command selects ten fixed questions, one per metric, from the 200 and compares repeated choices and exact confidence values. These authored datasets test known catalog names and wording patterns; they do not estimate accuracy on arbitrary production questions.
+Both commands use the same 100-question dataset. The repeatability command selects ten fixed questions, one per metric, and compares repeated choices and exact confidence values. This authored dataset tests known catalog names and wording patterns; it does not estimate accuracy on arbitrary production questions.
 
 ## Layout
 

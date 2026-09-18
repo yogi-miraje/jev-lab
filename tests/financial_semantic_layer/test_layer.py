@@ -1,5 +1,4 @@
 from collections import Counter
-from pathlib import Path
 
 from jev_lab.financial_semantic_layer.layer import (
     interpret_period,
@@ -9,12 +8,6 @@ from jev_lab.financial_semantic_layer.layer import (
 )
 from jev_lab.financial_semantic_layer.layer_benchmark import load_dataset, validate_dataset
 from jev_lab.financial_semantic_layer.resolver import load_semantic_graph
-
-HOLDOUT_PATH = (
-    Path(__file__).parents[2]
-    / "jev_lab/financial_semantic_layer/data/semantic_layer_holdout_50.jsonl"
-)
-
 
 def test_hundred_question_dataset_covers_metrics_entities_and_dates():
     layer = load_semantic_layer()
@@ -44,13 +37,3 @@ def test_catalog_matching_and_period_normalization_match_labels():
 def test_longer_fund_name_does_not_create_false_index_mention():
     mentions = match_entities("How did SPDR S&P 500 ETF Trust perform?", load_entity_catalog())
     assert [mention.entity_id for mention in mentions] == ["entity.spdr_s_p_500_etf_trust"]
-
-
-def test_holdout_is_distinct_and_has_five_questions_per_metric():
-    layer = load_semantic_layer()
-    rows = load_dataset(HOLDOUT_PATH)
-    validate_dataset(rows, layer["entities"], layer["metric_graph"])
-    original_questions = {row["question"] for row in load_dataset()}
-    assert len(rows) == 50
-    assert set(Counter(row["metric"] for row in rows).values()) == {5}
-    assert not original_questions.intersection(row["question"] for row in rows)

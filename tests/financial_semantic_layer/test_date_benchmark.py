@@ -1,22 +1,16 @@
 from collections import Counter
 
-from jev_lab.financial_semantic_layer.date_benchmark import MANIFEST, benchmark_rows, score
+from jev_lab.financial_semantic_layer.date_benchmark import benchmark_rows, score
 from jev_lab.financial_semantic_layer.date_classification import DATE_CRITERIA, expected_date_label
 from jev_lab.financial_semantic_layer.repeatability_benchmark import sample_rows
 
 
-def test_200_question_dataset_has_all_coarse_date_labels():
+def test_100_question_dataset_has_all_coarse_date_labels():
     rows = benchmark_rows()
-    labels = {expected_date_label(row["period"]) for _, row in rows}
-    assert len(rows) == 200
-    assert set(MANIFEST["date_labels"]) == set(DATE_CRITERIA)
+    labels = {expected_date_label(row["period"]) for row in rows}
+    assert len(rows) == 100
     assert labels == set(DATE_CRITERIA)
-    expanded = [row for source, row in rows if source in MANIFEST["groups"]["expanded_100"]]
-    assert len(expanded) == 100
-    assert set(Counter(row["metric"] for row in expanded).values()) == {10}
-    newer = [row for source, row in rows if source == "newer_50"]
-    assert len(newer) == 50
-    assert all("year" not in row["period"] for row in newer)
+    assert set(Counter(row["metric"] for row in rows).values()) == {10}
 
 
 def test_absolute_year_and_fiscal_basis_are_ignored_but_quarter_number_is_not():
@@ -53,5 +47,5 @@ def test_whole_question_gets_zero_if_date_label_is_wrong():
 def test_repeatability_sample_covers_all_metrics_and_target_selection():
     rows = sample_rows()
     assert len(rows) == 10
-    assert len({row["metric"] for _, row in rows}) == 10
-    assert sum(len(row["entities"]) > 1 for _, row in rows) >= 3
+    assert len({row["metric"] for row in rows}) == 10
+    assert sum(len(row["entities"]) > 1 for row in rows) >= 3

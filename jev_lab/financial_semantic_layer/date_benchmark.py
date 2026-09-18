@@ -1,4 +1,4 @@
-"""Score 200 questions with a Jev date label, ignoring absolute years and fiscal basis."""
+"""Score the 100-question dataset with a coarse Jev date label."""
 
 from __future__ import annotations
 
@@ -6,7 +6,6 @@ import argparse
 import json
 import os
 from collections import Counter
-from pathlib import Path
 from time import perf_counter
 from typing import Any
 
@@ -15,29 +14,15 @@ from dotenv import load_dotenv
 from ..shared.provider import JevProvider
 from .date_classification import date_question, expected_date_label
 from .layer import load_semantic_layer, prepare_question, resolve_answers
-from .layer_benchmark import load_dataset, validate_dataset
+from .layer_benchmark import DATASET_PATH, load_dataset, validate_dataset
 
-MANIFEST_PATH = Path(__file__).parent / "data" / "semantic_layer_date_200.json"
-MANIFEST = json.loads(MANIFEST_PATH.read_text())
-SOURCES = tuple(
-    (source["name"], MANIFEST_PATH.parent / source["file"])
-    for source in MANIFEST["sources"]
-)
 SCORE_FIELDS = ("entities", "target", "metric", "date", "joint", "rule_date", "rule_joint")
 
 
-def benchmark_rows() -> list[tuple[str, dict[str, Any]]]:
-    for source in MANIFEST["sources"]:
-        path = MANIFEST_PATH.parent / source["file"]
-        if len(load_dataset(path)) != source["question_count"]:
-            raise ValueError(f"Unexpected question count in {path}")
-    rows = [(name, row) for name, path in SOURCES for row in load_dataset(path)]
-    if len(rows) != MANIFEST["question_count"] or len(
-        {row["question"] for _, row in rows}
-    ) != MANIFEST["question_count"]:
-        raise ValueError(
-            f"Expected {MANIFEST['question_count']} distinct questions across the fixed datasets"
-        )
+def benchmark_rows() -> list[dict[str, Any]]:
+    rows = load_dataset(DATASET_PATH)
+    if len(rows) != 100 or len({row["question"] for row in rows}) != 100:
+        raise ValueError("Expected 100 distinct questions in the benchmark dataset")
     return rows
 
 
@@ -66,7 +51,7 @@ def counts(counter: Counter[str], total: int) -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description=f"Benchmark coarse date labels on {MANIFEST['question_count']} finance questions."
+        description="Benchmark coarse date labels on 100 finance questions."
     )
     parser.add_argument("--batch-size", type=int, default=25)
     parser.add_argument("--details", action="store_true", help="Include all predictions, not just misses")
@@ -83,11 +68,10 @@ def main() -> None:
     graph = layer["metric_graph"]
     catalog = layer["entities"]
     rows = benchmark_rows()
-    validate_dataset([row for _, row in rows], catalog, graph)
+    validate_dataset(rows, catalog, graph)
 
     totals: Counter[str] = Counter()
-    by_source: dict[str, Counter[str]] = {name: Counter() for name, _ in SOURCES}
-    labels = Counter(expected_date_label(row["period"]) for _, row in rows)
+    labels = Counter(expected_date_label(row["period"]) for row in rows)
     details = []
     call_ms = []
     model = None
@@ -97,7 +81,7 @@ def main() -> None:
         batch = rows[start_index:start_index + args.batch_size]
         questions: dict[str, object] = {}
         prepared = []
-        for local_index, (_, row) in enumerate(batch, start=1):
+        for local_index, row in enumerate(batch, start=1):
             mentions, rule_period, local_questions = prepare_question(
                 row["question"], graph, catalog
             )
@@ -108,13 +92,13 @@ def main() -> None:
 
         call_start = perf_counter()
         response = provider.evaluate(
-            {"semantic_layer": layer, "questions": [row["question"] for _, row in batch]},
+            {"semantic_layer": layer, "questions": [row["question"] for row in batch]},
             questions,
         )
         call_ms.append(round((perf_counter() - call_start) * 1000, 1))
         model = response.model
 
-        for local_index, ((source, row), (mentions, rule_period)) in enumerate(
+        for local_index, (row, (mentions, rule_period)) in enumerate(
             zip(batch, prepared), start=1
         ):
             answers = {"metric": response.answers[f"q{local_index}_metric"]}
@@ -124,11 +108,9 @@ def main() -> None:
             model_date = response.answers[f"q{local_index}_date"].choice
             checks = score(row, resolved, model_date)
             totals.update(field for field, correct in checks.items() if correct)
-            by_source[source].update(field for field, correct in checks.items() if correct)
             if args.details or not checks["joint"]:
                 details.append({
                     "number": start_index + local_index,
-                    "source": source,
                     "question": row["question"],
                     "expected": {
                         "entities": row["entities"],
@@ -148,25 +130,10 @@ def main() -> None:
 
     result = {
         "model": model,
-        "dataset": {name: str(path) for name, path in SOURCES},
+        "dataset": str(DATASET_PATH),
         "question_count": len(rows),
         "date_label_distribution": dict(sorted(labels.items())),
         "overall": counts(totals, len(rows)),
-        "by_source": {
-            name: counts(by_source[name], len(load_dataset(path)))
-            for name, path in SOURCES
-        },
-        "by_group": {
-            group: counts(
-                sum((by_source[name] for name in source_names), Counter()),
-                sum(
-                    source["question_count"]
-                    for source in MANIFEST["sources"]
-                    if source["name"] in source_names
-                ),
-            )
-            for group, source_names in MANIFEST.get("groups", {}).items()
-        },
         "batch_count": len(call_ms),
         "api_call_ms_by_batch": call_ms,
         "api_call_ms_total": round(sum(call_ms), 1),

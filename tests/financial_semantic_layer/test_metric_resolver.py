@@ -1,4 +1,4 @@
-from jev_lab.semantic_metrics.resolver import (
+from jev_lab.financial_semantic_layer.resolver import (
     load_semantic_graph,
     metric_criteria,
     metric_nodes,

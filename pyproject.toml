@@ -10,17 +10,12 @@ dependencies = [
 ]
 
 [project.scripts]
-jev-lab = "jev_lab.support_tickets.cli:main"
-jev-entities = "jev_lab.financial_entities.cli:main"
-jev-entities-benchmark = "jev_lab.financial_entities.benchmark:main"
 jev-route = "jev_lab.model_router.cli:main"
 jev-route-benchmark = "jev_lab.model_router.benchmark:main"
-jev-semantic-metric = "jev_lab.semantic_metrics.cli:main"
-jev-semantic-metric-benchmark = "jev_lab.semantic_metrics.benchmark:main"
-jev-semantic-layer = "jev_lab.semantic_metrics.layer_cli:main"
-jev-semantic-layer-benchmark = "jev_lab.semantic_metrics.layer_benchmark:main"
-jev-semantic-date-benchmark = "jev_lab.semantic_metrics.date_benchmark:main"
-jev-semantic-repeatability = "jev_lab.semantic_metrics.repeatability_benchmark:main"
+jev-semantic-layer = "jev_lab.financial_semantic_layer.layer_cli:main"
+jev-semantic-layer-benchmark = "jev_lab.financial_semantic_layer.layer_benchmark:main"
+jev-semantic-date-benchmark = "jev_lab.financial_semantic_layer.date_benchmark:main"
+jev-semantic-repeatability = "jev_lab.financial_semantic_layer.repeatability_benchmark:main"
 
 [dependency-groups]
 dev = ["pytest>=8.0"]

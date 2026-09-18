@@ -1,8 +1,8 @@
 from collections import Counter
 
-from jev_lab.semantic_metrics.date_benchmark import MANIFEST, benchmark_rows, score
-from jev_lab.semantic_metrics.date_classification import DATE_CRITERIA, expected_date_label
-from jev_lab.semantic_metrics.repeatability_benchmark import sample_rows
+from jev_lab.financial_semantic_layer.date_benchmark import MANIFEST, benchmark_rows, score
+from jev_lab.financial_semantic_layer.date_classification import DATE_CRITERIA, expected_date_label
+from jev_lab.financial_semantic_layer.repeatability_benchmark import sample_rows
 
 
 def test_200_question_dataset_has_all_coarse_date_labels():

@@ -1,18 +1,18 @@
 from collections import Counter
 from pathlib import Path
 
-from jev_lab.semantic_metrics.layer import (
+from jev_lab.financial_semantic_layer.layer import (
     interpret_period,
     load_entity_catalog,
     load_semantic_layer,
     match_entities,
 )
-from jev_lab.semantic_metrics.layer_benchmark import load_dataset, validate_dataset
-from jev_lab.semantic_metrics.resolver import load_semantic_graph
+from jev_lab.financial_semantic_layer.layer_benchmark import load_dataset, validate_dataset
+from jev_lab.financial_semantic_layer.resolver import load_semantic_graph
 
 HOLDOUT_PATH = (
     Path(__file__).parents[2]
-    / "jev_lab/semantic_metrics/data/semantic_layer_holdout_50.jsonl"
+    / "jev_lab/financial_semantic_layer/data/semantic_layer_holdout_50.jsonl"
 )
 
 

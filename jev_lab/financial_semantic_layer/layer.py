@@ -12,11 +12,9 @@ from typesafe_sdk import Choice
 
 from .resolver import load_semantic_graph, metric_question, semantic_metric_decision
 
-ENTITY_CATALOG_PATH = (
-    Path(__file__).parent.parent / "financial_entities" / "data" / "financial_entities_20.json"
-)
+ENTITY_CATALOG_PATH = Path(__file__).parent / "data" / "entity_catalog.json"
 
-# These aliases extend the canonical names in the entity example. Keep ambiguous
+# These aliases extend the canonical names in the semantic layer. Keep ambiguous
 # short words out of this table: a false match is worse than an abstention.
 ENTITY_ALIASES = {
     "Apple": ["AAPL", "Apple Inc."],

@@ -1,1 +1,0 @@
-"""Support-ticket triage example."""
